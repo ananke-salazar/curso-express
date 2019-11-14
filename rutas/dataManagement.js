@@ -64,6 +64,24 @@ router.get('/obtenerTodosLosCursos', async (req, res) => {
 
 });
 
+router.get('/obtenerTodosLosDocentes', async (req, res) => {
+
+    Docente.find()
+        .then((losNodos) => {
+            res.json({
+                "status": "ok",
+                "docentes": losNodos
+            });
+        })
+        .catch((err) => {
+            res.json({
+                "status": "fail",
+                "error": err
+            });
+        });
+
+});
+
 router.get('/obtenerCursoPorId/:id', async (req, res) => {
 
     let idTarget = req.params.id;
@@ -77,7 +95,7 @@ router.get('/obtenerCursoPorId/:id', async (req, res) => {
 
                     let miCursoTarget = elCurso.toObject();
                     miCursoTarget.docente = elDocente;
-                    miCursoTarget.miOtraVariable="AA";
+                    miCursoTarget.miOtraVariable = "AA";
 
                     res.json({
                         "status": "ok",
@@ -114,5 +132,23 @@ router.get('/obtenerCursoPorNombre', async (req, res) => {
 
 });
 
+router.put('/actualizarDocente/:id', async (req, res) => {
+
+    Docente.findByIdAndUpdate(req.params.id,
+        req.body.queryUpdate)
+        .then(() => {
+            res.json({
+                "status": "ok"
+        });
+        })
+        .catch((err) => {
+            res.json({
+                "status": "fail",
+                "error": err
+            });
+        });
+
+
+});
 
 module.exports = router;
